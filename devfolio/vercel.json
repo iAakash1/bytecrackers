@@ -1,0 +1,41 @@
+{
+  "name": "ai-deepfake-authenticity-checker",
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "outputDirectory": "frontend/dist",
+  "framework": "vite",
+  "installCommand": "cd frontend && npm install",
+  "buildCommand": "cd frontend && npm run build",
+  "devCommand": "cd frontend && npm run dev",
+  "env": {
+    "VITE_ETHEREUM_RPC_URL": "@ethereum_rpc_url",
+    "VITE_POLYGON_RPC_URL": "@polygon_rpc_url",
+    "VITE_SEPOLIA_RPC_URL": "@sepolia_rpc_url",
+    "VITE_MUMBAI_RPC_URL": "@mumbai_rpc_url",
+    "VITE_WALLETCONNECT_PROJECT_ID": "@walletconnect_project_id",
+    "VITE_AUTHENTICITY_REGISTRY_ADDRESS": "@authenticity_registry_address",
+    "VITE_AUTHENTICITY_NFT_ADDRESS": "@authenticity_nft_address",
+    "VITE_AI_SERVICE_URL": "@ai_service_url",
+    "VITE_IPFS_GATEWAY_URL": "@ipfs_gateway_url",
+    "VITE_PINATA_API_KEY": "@pinata_api_key",
+    "VITE_PINATA_SECRET_KEY": "@pinata_secret_key"
+  }
+}

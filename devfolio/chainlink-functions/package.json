@@ -1,0 +1,29 @@
+{
+  "name": "chainlink-functions-deepfake-checker",
+  "version": "1.0.0",
+  "description": "Chainlink Functions JavaScript code for AI deepfake detection integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test-functions.js",
+    "simulate": "node simulate-request.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@chainlink/functions-toolkit": "^0.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.10.0",
+    "prettier": "^3.3.3"
+  },
+  "keywords": [
+    "chainlink",
+    "functions",
+    "deepfake",
+    "ai",
+    "blockchain",
+    "oracle"
+  ],
+  "author": "AI Deepfake Authenticity Checker Team",
+  "license": "MIT"
+}

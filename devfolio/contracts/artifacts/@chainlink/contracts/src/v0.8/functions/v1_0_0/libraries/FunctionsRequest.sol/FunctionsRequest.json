@@ -1,0 +1,44 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "FunctionsRequest",
+  "sourceName": "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "EmptyArgs",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptySecrets",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EmptySource",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoInlineSecrets",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "REQUEST_DATA_VERSION",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080806040523460175760759081601d823930815050f35b600080fdfe6080806040526004361015601257600080fd5b60003560e01c635d641dfc14602657600080fd5b6000366003190112603a5780600160209252f35b600080fdfea2646970667358221220cda3ef2126951d16a0f96e298d8a0fb837d242f3defdd992ae4232f814716b3c64736f6c63430008190033",
+  "deployedBytecode": "0x6080806040526004361015601257600080fd5b60003560e01c635d641dfc14602657600080fd5b6000366003190112603a5780600160209252f35b600080fdfea2646970667358221220cda3ef2126951d16a0f96e298d8a0fb837d242f3defdd992ae4232f814716b3c64736f6c63430008190033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

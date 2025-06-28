@@ -1,0 +1,72 @@
+{
+  "name": "ai-deepfake-authenticity-checker",
+  "version": "1.0.0",
+  "description": "A production-ready, full-stack decentralized application for detecting AI-generated deepfakes and minting authenticity certificates as NFTs",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install && npm run install:frontend && npm run install:contracts && npm run install:python",
+    "install:frontend": "cd frontend && npm install && npm audit fix --force",
+    "install:contracts": "cd contracts && npm install --legacy-peer-deps && npx hardhat compile",
+    "install:python": "cd ai-service && python3 -m pip install --upgrade pip && pip3 install -r requirements.txt",
+    "build:all": "npm run build:contracts && npm run build:frontend",
+    "build:contracts": "cd contracts && npx hardhat compile",
+    "build:frontend": "cd frontend && npm run build",
+    "test:all": "npm run test:contracts && npm run test:frontend && npm run test:python",
+    "test:contracts": "cd contracts && npx hardhat test",
+    "test:frontend": "cd frontend && npm run test",
+    "test:python": "cd ai-service && python3 -m pytest",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:contracts\" \"npm run dev:ai-service\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:contracts": "cd contracts && npx hardhat node",
+    "dev:ai-service": "cd ai-service && python3 app.py",
+    "deploy:contracts:sepolia": "cd contracts && npx hardhat deploy --network sepolia",
+    "deploy:contracts:polygon": "cd contracts && npx hardhat deploy --network polygon",
+    "deploy:frontend": "cd frontend && vercel --prod",
+    "lint": "npm run lint:frontend && npm run lint:contracts",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:contracts": "cd contracts && npx hardhat check",
+    "format": "npm run format:frontend && npm run format:contracts",
+    "format:frontend": "cd frontend && npm run format",
+    "format:contracts": "cd contracts && npx prettier --write .",
+    "clean": "rm -rf node_modules frontend/node_modules contracts/node_modules frontend/dist contracts/artifacts contracts/cache ai-service/__pycache__ ai-service/.pytest_cache",
+    "clean:all": "npm run clean:frontend && npm run clean:contracts && npm run clean:python",
+    "clean:frontend": "cd frontend && rm -rf node_modules dist",
+    "clean:contracts": "cd contracts && rm -rf node_modules artifacts cache",
+    "clean:python": "cd ai-service && find . -name '__pycache__' -delete",
+    "setup": "npm run install:all && npm run build:all",
+    "check-deps": "npm outdated && cd frontend && npm outdated && cd ../contracts && npm outdated"
+  },
+  "keywords": [
+    "deepfake",
+    "ai",
+    "blockchain",
+    "nft",
+    "authentication",
+    "web3",
+    "decentralized",
+    "chainlink",
+    "ipfs",
+    "react",
+    "solidity",
+    "python",
+    "machine-learning"
+  ],
+  "author": "AI Deepfake Authenticity Checker Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ai-deepfake-authenticity-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/ai-deepfake-authenticity-checker/issues"
+  },
+  "homepage": "https://github.com/your-username/ai-deepfake-authenticity-checker#readme"
+}

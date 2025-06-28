@@ -1,0 +1,136 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  contracts:
+    name: Smart Contracts
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./contracts
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: contracts/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Compile contracts
+      run: npx hardhat compile
+    
+    - name: Run tests
+      run: npx hardhat test
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: contract-artifacts
+        path: contracts/artifacts/
+
+  frontend:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Type check
+      run: npm run type-check
+    
+    - name: Build
+      run: npm run build
+      env:
+        VITE_ETHEREUM_RPC_URL: https://eth.llamarpc.com
+        VITE_POLYGON_RPC_URL: https://polygon.llamarpc.com
+        VITE_SEPOLIA_RPC_URL: https://sepolia.drpc.org
+        VITE_MUMBAI_RPC_URL: https://polygon-mumbai.drpc.org
+        VITE_WALLETCONNECT_PROJECT_ID: demo_project_id
+        VITE_AUTHENTICITY_REGISTRY_ADDRESS: 0x0000000000000000000000000000000000000000
+        VITE_AUTHENTICITY_NFT_ADDRESS: 0x0000000000000000000000000000000000000000
+        VITE_AI_SERVICE_URL: http://localhost:5000
+        VITE_IPFS_GATEWAY_URL: https://gateway.pinata.cloud/ipfs
+        VITE_PINATA_API_KEY: demo_key
+        VITE_PINATA_SECRET_KEY: demo_secret
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/dist/
+
+  ai-service:
+    name: AI Service
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ai-service
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run tests
+      run: python -m pytest tests/ -v
+      if: github.event_name == 'push'
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install dependencies (contracts)
+      run: |
+        cd contracts && npm ci
+    
+    - name: Install dependencies (frontend)
+      run: |
+        cd frontend && npm ci
+    
+    - name: Run security audit (contracts)
+      run: |
+        cd contracts && npm audit --audit-level moderate
+    
+    - name: Run security audit (frontend)
+      run: |
+        cd frontend && npm audit --audit-level moderate
