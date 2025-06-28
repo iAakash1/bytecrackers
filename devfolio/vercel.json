@@ -1,30 +1,15 @@
 {
   "name": "ai-deepfake-authenticity-checker",
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/$1"
-    }
-  ],
+  "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "framework": "vite",
   "installCommand": "cd frontend && npm install",
-  "buildCommand": "cd frontend && npm run build",
-  "devCommand": "cd frontend && npm run dev",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "env": {
     "VITE_ETHEREUM_RPC_URL": "@ethereum_rpc_url",
     "VITE_POLYGON_RPC_URL": "@polygon_rpc_url",
