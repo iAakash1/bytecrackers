@@ -351,7 +351,7 @@ contract AuthenticityNFT is ERC721A, Ownable, ReentrancyGuard {
      */
     function _beforeTokenTransfers(
         address from,
-        address to,
+        address /* to */,
         uint256 startTokenId,
         uint256 quantity
     ) internal view override {
