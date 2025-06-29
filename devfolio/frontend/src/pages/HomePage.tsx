@@ -1,229 +1,315 @@
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  ShieldCheckIcon, 
+  PhotoIcon, 
+  CpuChipIcon, 
+  SparklesIcon,
+  ArrowRightIcon,
+  EyeIcon,
+  CheckBadgeIcon,
+  ChartBarIcon
+} from '@heroicons/react/24/outline'
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
+
+  const heroImages = [
+    '/images/1.jpeg',
+    '/images/2.avif',
+    '/images/3.jpg'
+  ]
+
+  const features = [
+    {
+      icon: CpuChipIcon,
+      title: 'AI-Powered Detection',
+      description: 'Advanced machine learning algorithms detect deepfakes with 99.7% accuracy',
+      color: 'from-blue-500 to-purple-600'
+    },
+    {
+      icon: ShieldCheckIcon,
+      title: 'Blockchain Verification',
+      description: 'Immutable proof of authenticity stored on the blockchain forever',
+      color: 'from-green-500 to-teal-600'
+    },
+    {
+      icon: PhotoIcon,
+      title: 'Real-time Analysis',
+      description: 'Get instant results with our lightning-fast processing engine',
+      color: 'from-orange-500 to-red-600'
+    },
+    {
+      icon: SparklesIcon,
+      title: 'NFT Certificates',
+      description: 'Mint authenticity certificates as NFTs for permanent verification',
+      color: 'from-pink-500 to-violet-600'
+    }
+  ]
+
+  const stats = [
+    { number: '1M+', label: 'Images Verified', icon: EyeIcon },
+    { number: '99.7%', label: 'Accuracy Rate', icon: CheckBadgeIcon },
+    { number: '50K+', label: 'Users Trust Us', icon: ChartBarIcon },
+    { number: '24/7', label: 'Always Available', icon: ShieldCheckIcon }
+  ]
+
+  useEffect(() => {
+    setIsVisible(true)
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Animated background particles
+  const particles = Array.from({ length: 50 }, (_, i) => (
+    <motion.div
+      key={i}
+      className="absolute w-1 h-1 bg-white rounded-full opacity-20"
+      initial={{ 
+        x: Math.random() * window.innerWidth, 
+        y: Math.random() * window.innerHeight 
+      }}
+      animate={{
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+      }}
+      transition={{
+        duration: Math.random() * 20 + 10,
+        repeat: Infinity,
+        repeatType: 'reverse'
+      }}
+    />
+  ))
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Animated Background Particles */}
+      <div className="fixed inset-0 pointer-events-none">
+        {particles}
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              <span className="text-blue-600">AI Deepfake</span>
-              <br />
-              Authenticity Checker
-            </h1>
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Verify the authenticity of digital content using cutting-edge AI technology and 
-              mint NFT certificates for verified authentic media on the blockchain.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                to="/upload"
-                className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+            {/* Left Column - Content */}
+            <motion.div 
+              className="text-center lg:text-left"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -50 }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
               >
-                📤 Verify Content Now
-              </Link>
-              <Link 
-                to="/public-feed"
-                className="inline-flex items-center px-8 py-3 bg-gray-100 text-gray-900 font-semibold rounded-lg hover:bg-gray-200 transition-colors"
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-300 border border-blue-500/30 mb-6">
+                  <SparklesIcon className="w-4 h-4 mr-2" />
+                  AI-Powered Deepfake Detection
+                </span>
+              </motion.div>
+
+              <motion.h1 
+                className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
               >
-                🔍 Browse Verified Content
-              </Link>
-            </div>
+                Verify Reality in the
+                <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Age of AI
+                </span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl text-gray-300 mb-8 max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+              >
+                Protect yourself from AI-generated deepfakes with our cutting-edge detection technology. 
+                Get instant verification and blockchain-based proof of authenticity.
+              </motion.p>
+
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+              >
+                <Link 
+                  to="/upload"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                  <PhotoIcon className="w-5 h-5 mr-2" />
+                  Start Verification
+                  <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                
+                <Link 
+                  to="/public-feed"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white border-2 border-white/20 rounded-xl hover:bg-white/10 transition-all duration-200"
+                >
+                  <EyeIcon className="w-5 h-5 mr-2" />
+                  View Gallery
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Image Carousel */}
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 50 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="relative w-full h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImageIndex}
+                    src={heroImages[currentImageIndex]}
+                    alt="Authenticity verification example"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.7 }}
+                  />
+                </AnimatePresence>
+                
+                {/* Overlay with verification badge */}
+                <div className="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-2 rounded-lg flex items-center backdrop-blur-sm">
+                  <CheckBadgeIcon className="w-5 h-5 mr-1" />
+                  <span className="font-semibold">Verified</span>
+                </div>
+
+                {/* Image indicators */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                  {heroImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                        index === currentImageIndex 
+                          ? 'bg-white scale-110' 
+                          : 'bg-white/50 hover:bg-white/70'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white/5 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">1,247</div>
-              <div className="text-gray-600">Total Verifications</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">891</div>
-              <div className="text-gray-600">Authentic Content</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-red-600 mb-2">356</div>
-              <div className="text-gray-600">Deepfakes Detected</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">234</div>
-              <div className="text-gray-600">NFTs Minted</div>
-            </div>
-          </div>
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <stat.icon className="w-8 h-8 mx-auto mb-2 text-blue-400" />
+                <div className="text-3xl font-bold text-white mb-1">{stat.number}</div>
+                <div className="text-gray-300">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Powerful Features
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Why Choose Our Platform?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Everything you need to verify media authenticity and combat deepfakes
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Experience the future of content verification with our advanced AI technology 
+              and blockchain-based authenticity certificates.
             </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl">🛡️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                AI-Powered Detection
-              </h3>
-              <p className="text-gray-600">
-                Advanced machine learning algorithms detect deepfakes with 95%+ accuracy
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl">📤</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Easy Upload
-              </h3>
-              <p className="text-gray-600">
-                Simply drag and drop your media files for instant verification
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl">🏆</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                NFT Certificates
-              </h3>
-              <p className="text-gray-600">
-                Get blockchain-verified authenticity certificates as NFTs
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl">🔍</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Public Verification
-              </h3>
-              <p className="text-gray-600">
-                Search and verify content shared across the platform
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      {/* Recent Activity */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Recent Verifications
-            </h2>
-            <Link
-              to="/public-feed"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              View all →
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-500">Image</span>
-                <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Authentic
-                </span>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <span>Confidence</span>
-                  <span>94%</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="group relative p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 group-hover:shadow-lg transition-shadow`}>
+                  <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                  <div
-                    className="h-2 rounded-full bg-green-500"
-                    style={{ width: '94%' }}
-                  ></div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-500">2 minutes ago</p>
-            </div>
-            
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-500">Video</span>
-                <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                  Fake
-                </span>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <span>Confidence</span>
-                  <span>87%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                  <div
-                    className="h-2 rounded-full bg-red-500"
-                    style={{ width: '87%' }}
-                  ></div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-500">5 minutes ago</p>
-            </div>
-            
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-500">Image</span>
-                <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Authentic
-                </span>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <span>Confidence</span>
-                  <span>96%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                  <div
-                    className="h-2 rounded-full bg-green-500"
-                    style={{ width: '96%' }}
-                  ></div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-500">8 minutes ago</p>
-            </div>
+                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                <p className="text-gray-300">{feature.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Verify Your Content?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join thousands of users protecting themselves from deepfakes and misinformation
-          </p>
-          <Link
-            to="/upload"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            📤 Start Verification Now
-          </Link>
-        </div>
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-3xl p-12 border border-white/10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Ready to Verify Your Content?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8">
+              Join thousands of users who trust our platform to detect AI-generated content 
+              and protect against deepfakes.
+            </p>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/upload"
+                className="inline-flex items-center justify-center px-10 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <PhotoIcon className="w-5 h-5 mr-2" />
+                Start Verification Now
+                <ArrowRightIcon className="w-5 h-5 ml-2" />
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
       </section>
     </div>
   )
